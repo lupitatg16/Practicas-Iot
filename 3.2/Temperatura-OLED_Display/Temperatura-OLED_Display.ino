@@ -1,74 +1,80 @@
-#include <Wire.h>
-#include <Adafruit_GFX.h>
-#include <Adafruit_SSD1306.h>
-#include <Adafruit_Sensor.h>
-#include <DHT.h>
+#include <Wire.h>                 // Librería para la comunicación I2C
+#include <Adafruit_GFX.h>          // Librería gráfica para manejar displays
+#include <Adafruit_SSD1306.h>      // Librería para el display OLED SSD1306
+#include <Adafruit_Sensor.h>       // Librería base para sensores de Adafruit
+#include <DHT.h>                   // Librería para el sensor DHT
 
-#define SCREEN_WIDTH 128 // OLED display width, in pixels
-#define SCREEN_HEIGHT 64 // OLED display height, in pixels
+#define SCREEN_WIDTH 128           // Ancho del display OLED en píxeles
+#define SCREEN_HEIGHT 64           // Alto del display OLED en píxeles
 
-// Declaration for an SSD1306 display connected to I2C (SDA, SCL pins)
+// Declaración del display OLED conectado por I2C (pines SDA, SCL)
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
 
-#define DHTPIN 4     // Digital pin connected to the DHT sensor
+#define DHTPIN 4                   // Pin digital conectado al sensor DHT
 
-// Uncomment the type of sensor in use:
-#define DHTTYPE    DHT11   // DHT 11
-//#define DHTTYPE    DHT22    // DHT 22 (AM2302)
-//#define DHTTYPE    DHT21    // DHT 21 (AM2301)
+// Definir el tipo de sensor DHT que estamos utilizando
+#define DHTTYPE DHT11              // Usamos el sensor DHT11
+//#define DHTTYPE DHT22            // Descomentar si se usa un DHT22
+//#define DHTTYPE DHT21            // Descomentar si se usa un DHT21
 
-DHT dht(DHTPIN, DHTTYPE);
+DHT dht(DHTPIN, DHTTYPE);          // Inicializamos el objeto del sensor DHT
 
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(115200);            // Inicializar la comunicación serial para depuración
 
-  dht.begin();
+  dht.begin();                     // Inicializar el sensor DHT
 
+  // Inicializar el display OLED y verificar si está conectado correctamente
   if(!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) {
-    Serial.println(F("SSD1306 allocation failed"));
-    for(;;);
+    Serial.println(F("SSD1306 allocation failed")); // Mostrar error si no se inicializa
+    for(;;);                     // Bucle infinito si falla el OLED
   }
-  delay(2000);
-  display.clearDisplay();
-  display.setTextColor(WHITE);
+  delay(2000);                     // Esperar 2 segundos para estabilización
+  display.clearDisplay();           // Limpiar el contenido previo en la pantalla
+  display.setTextColor(WHITE);      // Establecer el color del texto en blanco
 }
 
 void loop() {
-  delay(5000);
+  delay(5000);                     // Esperar 5 segundos entre lecturas
 
-  //read temperature and humidity
-  float t = dht.readTemperature();
-  float h = dht.readHumidity();
+  // Leer temperatura y humedad desde el sensor DHT
+  float t = dht.readTemperature();  // Leer temperatura en grados Celsius
+  float h = dht.readHumidity();     // Leer humedad en porcentaje
+
+  // Mostrar los valores de temperatura y humedad en el monitor serial
   Serial.println(t);
   Serial.println(h);
+
+  // Verificar si las lecturas son válidas
   if (isnan(h) || isnan(t)) {
-    Serial.println("Failed to read from DHT sensor!");
+    Serial.println("Fallo al leer datos del sensor DHT1!");  // Mostrar error si falla la lectura
   }
-  // clear display
+
+  // Limpiar el display antes de actualizarlo
   display.clearDisplay();
   
-  // display temperature
+  // Mostrar la temperatura en el display OLED
   display.setTextSize(1);
-  display.setCursor(0,0);
-  display.print("Temperature: ");
+  display.setCursor(0, 0);          // Posicionar el cursor en la parte superior izquierda
+  display.print("Temperatura: ");
   display.setTextSize(2);
-  display.setCursor(0,10);
-  display.print(t);
+  display.setCursor(0, 10);         // Ajustar la posición del cursor
+  display.print(t);                 // Mostrar el valor de la temperatura
   display.print(" ");
   display.setTextSize(1);
-  display.cp437(true);
-  display.write(167);
+  display.cp437(true);              // Habilitar el conjunto de caracteres CP437 para el símbolo de grados
+  display.write(167);               // Mostrar el símbolo de grados
   display.setTextSize(2);
-  display.print("C");
-  
-  // display humidity
+  display.print("C");               // Mostrar la unidad Celsius
+
+  // Mostrar la humedad en el display OLED
   display.setTextSize(1);
-  display.setCursor(0, 35);
-  display.print("Humidity: ");
+  display.setCursor(0, 35);         // Posicionar el cursor más abajo para mostrar la humedad
+  display.print("Humedad: ");
   display.setTextSize(2);
   display.setCursor(0, 45);
-  display.print(h);
-  display.print(" %"); 
+  display.print(h);                 // Mostrar el valor de la humedad
+  display.print(" %");              // Añadir el símbolo de porcentaje
   
-  display.display(); 
+  display.display();                // Actualizar la pantalla con los nuevos valores
 }
