@@ -1,4 +1,4 @@
-// Prácticas materia IoT - Profesora: Guadalupe Torres G
+// Prácticas materia IoT - Práctica realizada por Profesora: Guadalupe Torres G
 #include "DHT.h" // Se incluye la librería DHT para trabajar con sensores de temperatura y humedad.
 
 // Definimos el pin y el tipo de sensor.

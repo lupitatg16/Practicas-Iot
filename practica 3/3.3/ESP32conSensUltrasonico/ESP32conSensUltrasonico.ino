@@ -1,4 +1,4 @@
-//Mi medidor de distancia
+//Medidor de distancia hecho por Guadalupe Torres
 const int trigPin = 5;   // Pin conectado al Trigger del sensor ultrasónico
 const int echoPin = 18;  // Pin conectado al Echo del sensor ultrasónico
 
@@ -41,5 +41,5 @@ void loop() {
   Serial.print("Distancia (inch): ");
   Serial.println(distanceInch);
   
-  delay(2000);  // Esperar un segundo antes de realizar la siguiente medición
+  delay(2000);  // Esperar dos segundos antes de realizar la siguiente medición 
 }
