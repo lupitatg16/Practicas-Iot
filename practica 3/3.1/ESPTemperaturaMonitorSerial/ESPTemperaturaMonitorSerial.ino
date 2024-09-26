@@ -2,7 +2,7 @@
 #include "DHT.h" // Se incluye la librería DHT para trabajar con sensores de temperatura y humedad.
 
 // Definimos el pin y el tipo de sensor.
-#define DHTPIN 15  // Pin digital al que está conectado el sensor.
+#define DHTPIN 4 // Pin digital al que está conectado el sensor.
 #define DHTTYPE DHT11  // Definimos el tipo de sensor (DHT11).
 
 // Creamos una instancia del sensor DHT usando el pin y tipo definidos.
