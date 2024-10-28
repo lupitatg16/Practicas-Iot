@@ -14,7 +14,7 @@
 // Configuración del nombre del dispositivo
 #define DEVICE_NAME "ESPLupita"  // Cambiar este nombre para cada estudiante
 // Configuración del tiempo de parpadeo del led cuando se reciba la alarta del receptor (en milisegundos)
-const unsigned long BLINK_DURATION = 20000; // 20 segundos
+const unsigned long BLINK_DURATION = 45000; // 45 segundos
 const unsigned long BLINK_INTERVAL = 500;   // Intervalo de parpadeo en milisegundos
 
 // ===============================================

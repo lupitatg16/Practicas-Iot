@@ -26,6 +26,10 @@
 // Nota: Si la temperatura recibida supera este valor, el receptor activará el LED de alerta
 // y enviará una señal de alerta al emisor.
 const float TEMP_THRESHOLD = 27.9;  // Cambiar según el umbral deseado
+
+// Definir una variable global para el número de la cama esto podria recibirse desde un programa o app
+int numeroCama = 18;  // Esto puede cambiar según el escenario
+
 // ===============================================
 
 // Configuración de la pantalla OLED
@@ -118,9 +122,14 @@ void updateDisplay() {
   display.setCursor(0,16);
   display.printf("%.2f C", lastTemperature);
   if (lastTemperature > TEMP_THRESHOLD) {
+    // Segunda línea: ALERTA (Texto más pequeño)
     display.setTextSize(1);
     display.setCursor(0, 40);
-    display.print("ALERTA: Temp. Alta");
+    display.println("ALERTA: Temp. Alta");
+    // Tercera línea: cama 18
+    display.setCursor(0, 50);             // Ajustar la posición para cama 18
+    display.print("Cama #");
+    display.println(numeroCama);
   }
   display.display();
   Serial.println("Display actualizado");
